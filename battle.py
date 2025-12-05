@@ -1,5 +1,6 @@
 import deck
 import locations
+import random
 
 card_index = int(input("Select which card to play: "))
 location_index = int(input("Select a location on the map to travel to: "))
@@ -30,81 +31,69 @@ def fight(index, loc):
     print("\n\n\n")
 
 
-    player_hp -= player_cost1
-    loc_hp -= player_dmg1
 
-    print("You lost " + str(player_cost1) + " HP\n")
-    print("Location lost " + str(player_dmg1) + " HP\n")
+    for i in range(10):
 
-    print("Your HP: " + str(player_hp))
-    print("Location HP: " + str(loc_hp))
+        print("\n\nRound " + str(i+1) + "\n")
 
-    if (loc_hp <= 0):
-        print("Victory!")
-        return
-    if (player_hp <= 0):
-        print("Defeat!")
-        return
-
-    print("\n\n\n")
-
-    loc_hp -= loc_cost1
-    player_hp -= loc_dmg1
-
-    print("You lost " + str(loc_dmg1) + " HP\n")
-    print("Location lost " + str(loc_cost1) + " HP\n")
+        user_attack = int(input("Attack 1 or 2\n"))
+        if (user_attack == 1):
+            user_attack = player_dmg1
+            user_cost = player_cost1
+        elif (user_attack == 2):
+            user_attack = player_dmg2
+            user_cost = player_cost2
+        else:
+            print("Invalid")
+            return
+        
+        player_hp -= user_cost
+        loc_hp -= user_attack
 
 
-    print("Your HP: " + str(player_hp))
-    print("Location HP: " + str(loc_hp))
+        print("You lost " + str(user_cost) + " HP")
+        print("Location lost " + str(user_attack) + " HP\n")
 
-    if (loc_hp <= 0):
-        print("Victory!")
-        return
-    if (player_hp <= 0):
-        print("Defeat!")
-        return
-    
+        print("Your HP: " + str(player_hp))
+        print("Location HP: " + str(loc_hp))
 
-    print("\n\n\n")
-    
+        print("\n")
 
-    player_hp -= player_cost2
-    loc_hp -= player_dmg2
+        if (loc_hp <= 0):
+            print("Victory!")
+            return
+        if (player_hp <= 0):
+            print("Defeat!")
+            return
 
-    print("You lost " + str(player_cost2) + " HP\n")
-    print("Location lost " + str(player_dmg2) + " HP\n")
+        loc_attack = random.randint(1, 2)
+        if (loc_attack == 1):
+            loc_attack = loc_dmg1
+            loc_cost = loc_cost1
+        elif (loc_attack == 2):
+            loc_attack = loc_dmg2
+            loc_cost = loc_cost2
+        else:
+            print("Invalid")
+            return
+        
+        loc_hp -= loc_cost
+        player_hp -= loc_attack
 
-    print("Your HP: " + str(player_hp))
-    print("Location HP: " + str(loc_hp))
+        print("You lost " + str(loc_attack) + " HP")
+        print("Location lost " + str(loc_cost) + " HP\n")
 
-    if (loc_hp <= 0):
-        print("Victory!")
-        return
-    if (player_hp <= 0):
-        print("Defeat!")
-        return
-    
+        print("Your HP: " + str(player_hp))
+        print("Location HP: " + str(loc_hp))
 
-    print("\n\n\n")
-    
-    loc_hp -= loc_cost2
-    player_hp -= loc_dmg2
+        print("\n")
 
-    print("You lost " + str(loc_dmg2) + " HP\n")
-    print("Location lost " + str(loc_cost2) + " HP\n")
-
-
-    print("Your HP: " + str(player_hp))
-    print("Location HP: " + str(loc_hp))
-
-    if (loc_hp <= 0):
-        print("Victory!")
-        return
-    else:
-        print("Defeat!")
-        return
-    
+        if (loc_hp <= 0):
+            print("Victory!")
+            return
+        if (player_hp <= 0):
+            print("Defeat!")
+            return
 
 
 
