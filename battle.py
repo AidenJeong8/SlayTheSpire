@@ -1,6 +1,10 @@
 import deck
 import locations
 import random
+import turtle
+import turtle as t
+import items
+
 
 card_index = int(input("Select which card to play: "))
 location_index = int(input("Select a location on the map to travel to: "))
@@ -14,6 +18,7 @@ def fight(index, loc):
     player_cost2 = selected_card[4][0]
     player_dmg2 = selected_card[4][1]
 
+    fightvisuals(index,loc)
     
     print("Pokemon selected: " + selected_card[0])
     print("Initial HP: " + str(selected_card[1]))
@@ -95,6 +100,21 @@ def fight(index, loc):
             print("Defeat!")
             return
 
+def fightvisuals(card_index, loc):
+    screen = t.Screen()
+    screen.title("Pokemon Battle!")
+    screen.setup(width=800, height=600)
+    pokemon = deck.cards[card_index][5]
+    t.penup()
+    t.goto(-200, 0)
+    screen.addshape(pokemon)
+    t.shape(pokemon)
+
+
+
 
 
 fight(card_index, location_index)
+
+
+
