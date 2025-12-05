@@ -4,6 +4,7 @@ import random
 import turtle
 import turtle as t
 import items
+import time
 
 
 card_index = int(input("Select which card to play: "))
@@ -18,7 +19,9 @@ def fight(index, loc):
     player_cost2 = selected_card[4][0]
     player_dmg2 = selected_card[4][1]
 
-    fightvisuals(index,loc)
+    screen, pokemon_textle, enemy_textle = fightvisuals(index, loc)
+    update_battle(screen, pokemon_textle, enemy_textle, player_hp, locations.locs[loc][1], "0", "none", index)
+
 
     print("Pokemon selected: " + selected_card[0])
     print("Initial HP: " + str(selected_card[1]))
@@ -45,9 +48,11 @@ def fight(index, loc):
         if (user_attack == 1):
             user_attack = player_dmg1
             user_cost = player_cost1
+            whos_turn = "player"
         elif (user_attack == 2):
             user_attack = player_dmg2
             user_cost = player_cost2
+            whos_turn = "player"
         else:
             print("Invalid")
             return
@@ -64,8 +69,11 @@ def fight(index, loc):
 
         print("\n")
 
+        update_battle(screen, pokemon_textle, enemy_textle, player_hp, loc_hp, str(user_attack), whos_turn, index)
+
         if (loc_hp <= 0):
             print("Victory!")
+
             return
         if (player_hp <= 0):
             print("Defeat!")
@@ -75,9 +83,11 @@ def fight(index, loc):
         if (loc_attack == 1):
             loc_attack = loc_dmg1
             loc_cost = loc_cost1
+            whos_turn = "enemy"
         elif (loc_attack == 2):
             loc_attack = loc_dmg2
             loc_cost = loc_cost2
+            whos_turn = "enemy"
         else:
             print("Invalid")
             return
@@ -93,6 +103,8 @@ def fight(index, loc):
 
         print("\n")
 
+        update_battle(screen, pokemon_textle, enemy_textle, player_hp, loc_hp, str(user_attack), whos_turn, index)
+
         if (loc_hp <= 0):
             print("Victory!")
             return
@@ -104,6 +116,7 @@ def fightvisuals(card_index, loc):
     screen = t.Screen()
     screen.title("Pokemon Battle!")
     screen.setup(width=800, height=600)
+    screen.tracer(0)  
     pokemon = deck.cards[card_index][5]
     enemy = locations.locs[loc][5]
     
@@ -112,15 +125,77 @@ def fightvisuals(card_index, loc):
     
     enemy_turtle = t.Turtle()
     enemy_turtle.penup()
-    enemy_turtle.goto(200, 0)
+    enemy_turtle.goto(200, 200)
+    enemy_turtle.color("red")
+    enemy_turtle.write(locations.locs[loc][6], align="center", font=("Arial", 16, "normal"))
+    enemy_turtle.goto(250, 0)
     enemy_turtle.shape(enemy)
+
+    enemy_textle = t.Turtle()
+    enemy_textle.penup()
+    enemy_textle.goto(200, -200)
+    enemy_textle.write("HP: " + str(locations.locs[loc][1]), align="center", font=("Arial", 20, "normal"))
+    enemy_textle.hideturtle()
     
     pokemon_turtle = t.Turtle()
     pokemon_turtle.penup()
+    pokemon_turtle.goto(-200, 200)
+    pokemon_turtle.write(deck.cards[card_index][0], align="center", font=("Arial", 30, "normal"))
     pokemon_turtle.goto(-200, 0)
     pokemon_turtle.shape(pokemon)
 
+    pokemon_textle = t.Turtle()
+    pokemon_textle.penup()
+    pokemon_textle.goto(-200, -200)
+    pokemon_textle.write("HP: " + str(deck.cards[card_index][1]), align="center", font=("Arial", 20, "normal"))
+    pokemon_textle.goto(-200, -230)
+    pokemon_textle.write("Attack 1: " + str(deck.cards[card_index][3][1]) + " (Cost: " + str(deck.cards[card_index][3][0]) + ")", align="center", font=("Arial", 15, "normal"))
+    pokemon_textle.goto(-200, -260)
+    pokemon_textle.write("Attack 2: " + str(deck.cards[card_index][4][1]) + " (Cost: " + str(deck.cards[card_index][4][0]) + ")", align="center", font=("Arial", 15, "normal"))
+    pokemon_textle.hideturtle()
 
+    screen.update()
+
+    return screen, pokemon_textle, enemy_textle
+
+def update_battle(screen, pokemon_textle, enemy_textle, player_hp, loc_hp, damage, whos_turn, card_index):
+
+    pokemon_textle.clear()
+    pokemon_textle.goto(-200, -200)
+    pokemon_textle.write("HP: " + str(player_hp), align="center", font=("Arial", 20, "normal"))
+    pokemon_textle.goto(-200, -230)
+    pokemon_textle.write("Attack 1: " + str(deck.cards[card_index][3][1]) + " (Cost: " + str(deck.cards[card_index][3][0]) + ")", align="center", font=("Arial", 15, "normal"))
+    pokemon_textle.goto(-200, -260)
+    pokemon_textle.write("Attack 2: " + str(deck.cards[card_index][4][1]) + " (Cost: " + str(deck.cards[card_index][4][0]) + ")", align="center", font=("Arial", 15, "normal"))
+    
+    enemy_textle.clear()
+    enemy_textle.goto(200, -200)
+    enemy_textle.write("HP: " + str(loc_hp), align="center", font=("Arial", 20, "normal"))
+    
+    damage_turtle = t.Turtle()
+    damage_turtle.hideturtle()
+    damage_turtle.penup()
+
+    if whos_turn != "none":
+        damage_turtle = t.Turtle()
+        damage_turtle.hideturtle()
+        damage_turtle.penup()
+        damage_turtle.goto(0, 0)
+        if whos_turn == "player":
+            damage_turtle.color("green")
+        elif whos_turn == "enemy":
+            damage_turtle.color("red")
+        
+        damage_turtle.write("-" + damage, align="center", font=("Arial", 25, "normal"))
+
+        screen.update()
+        if whos_turn != "none":  
+            time.sleep(3)
+            damage_turtle.clear()
+            screen.update()
+
+
+    
 
 
 
