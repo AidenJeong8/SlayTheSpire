@@ -19,7 +19,7 @@ def fight(index, loc):
     player_dmg2 = selected_card[4][1]
 
     fightvisuals(index,loc)
-    
+
     print("Pokemon selected: " + selected_card[0])
     print("Initial HP: " + str(selected_card[1]))
 
@@ -105,10 +105,20 @@ def fightvisuals(card_index, loc):
     screen.title("Pokemon Battle!")
     screen.setup(width=800, height=600)
     pokemon = deck.cards[card_index][5]
-    t.penup()
-    t.goto(-200, 0)
+    enemy = locations.locs[loc][5]
+    
+    screen.addshape(enemy)
     screen.addshape(pokemon)
-    t.shape(pokemon)
+    
+    enemy_turtle = t.Turtle()
+    enemy_turtle.penup()
+    enemy_turtle.goto(200, 0)
+    enemy_turtle.shape(enemy)
+    
+    pokemon_turtle = t.Turtle()
+    pokemon_turtle.penup()
+    pokemon_turtle.goto(-200, 0)
+    pokemon_turtle.shape(pokemon)
 
 
 
