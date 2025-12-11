@@ -7,10 +7,6 @@ import items
 import time
 
 
-card_index = int(input("Select which card to play: "))
-location_index = int(input("Select a location on the map to travel to: "))
-print("\n\n\n")
-
 def fight(index, loc):
     selected_card = deck.cards[index] 
     player_hp = selected_card[1]
@@ -73,11 +69,12 @@ def fight(index, loc):
 
         if (loc_hp <= 0):
             print("Victory!")
-
-            return
+            screen.bye()
+            return player_hp
         if (player_hp <= 0):
             print("Defeat!")
-            return
+            screen.bye()
+            return 0
 
         loc_attack = random.randint(1, 2)
         if (loc_attack == 1):
@@ -107,13 +104,15 @@ def fight(index, loc):
 
         if (loc_hp <= 0):
             print("Victory!")
-            return
+            screen.bye()
+            return player_hp
         if (player_hp <= 0):
             print("Defeat!")
-            return
+            screen.bye()
+            return 0
 
-# battle visuals using turtle graphics, display of two battling pokemon, HP,  attacks
-def fightvisuals(card_index, loc):  
+def fightvisuals(card_index, loc):
+    t.TurtleScreen._RUNNING = True
     screen = t.Screen()
     screen.title("Pokemon Battle!")
     screen.setup(width=800, height=600)
@@ -157,9 +156,10 @@ def fightvisuals(card_index, loc):
 
     screen.update()
 
+
     return screen, pokemon_textle, enemy_textle
 
-# update battle graphics each attack turn, updates HP and shows damage dealt
+
 def update_battle(screen, pokemon_textle, enemy_textle, player_hp, loc_hp, damage, whos_turn, card_index):
 
     pokemon_textle.clear()
@@ -195,8 +195,5 @@ def update_battle(screen, pokemon_textle, enemy_textle, player_hp, loc_hp, damag
             time.sleep(3)
             damage_turtle.clear()
             screen.update()
-
-fight(card_index, location_index)
-
 
 
