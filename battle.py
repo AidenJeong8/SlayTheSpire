@@ -112,7 +112,8 @@ def fight(index, loc):
             print("Defeat!")
             return
 
-def fightvisuals(card_index, loc):
+# battle visuals using turtle graphics, display of two battling pokemon, HP,  attacks
+def fightvisuals(card_index, loc):  
     screen = t.Screen()
     screen.title("Pokemon Battle!")
     screen.setup(width=800, height=600)
@@ -158,6 +159,7 @@ def fightvisuals(card_index, loc):
 
     return screen, pokemon_textle, enemy_textle
 
+# update battle graphics each attack turn, updates HP and shows damage dealt
 def update_battle(screen, pokemon_textle, enemy_textle, player_hp, loc_hp, damage, whos_turn, card_index):
 
     pokemon_textle.clear()
@@ -193,11 +195,6 @@ def update_battle(screen, pokemon_textle, enemy_textle, player_hp, loc_hp, damag
             time.sleep(3)
             damage_turtle.clear()
             screen.update()
-
-
-    
-
-
 
 fight(card_index, location_index)
 
