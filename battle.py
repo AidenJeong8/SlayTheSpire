@@ -1,3 +1,13 @@
+"""
+Docstring for battle
+
+
+
+
+This file contains the whole battle system of Slay the Spire
+"""
+
+
 import deck
 import locations
 import random
@@ -6,8 +16,10 @@ import turtle as t
 import items
 import time
 
-
+# battle sequence function, taking in card & location index as parameters (not 0-indexed)
 def fight(index, loc):
+    
+    # instantiating all player card stats as variables
     selected_card = deck.cards[index] 
     player_hp = selected_card[1]
     player_cost1 = selected_card[3][0]
@@ -18,10 +30,11 @@ def fight(index, loc):
     screen, pokemon_textle, enemy_textle = fightvisuals(index, loc)
     update_battle(screen, pokemon_textle, enemy_textle, player_hp, locations.locs[loc][1], "0", "none", index)
 
-
+    # printing player stats
     print("Pokemon selected: " + selected_card[0])
     print("Initial HP: " + str(selected_card[1]))
 
+    # instantiating all location stats as variables
     selected_loc = locations.locs[loc] 
     loc_hp = selected_loc[1]
     loc_cost1 = selected_loc[3][0]
@@ -35,7 +48,7 @@ def fight(index, loc):
     print("\n\n\n")
 
 
-
+    # for loop for a maximum of 10 turns of battling
     for i in range(10):
 
         print("\n\nRound " + str(i+1) + "\n")
@@ -53,6 +66,7 @@ def fight(index, loc):
             print("Invalid")
             return
         
+        # damage dealt to location
         player_hp -= user_cost
         loc_hp -= user_attack
 
@@ -67,6 +81,7 @@ def fight(index, loc):
 
         update_battle(screen, pokemon_textle, enemy_textle, player_hp, loc_hp, str(user_attack), whos_turn, index)
 
+        # check to see if player or location died
         if (loc_hp <= 0):
             print("Victory!")
             screen.bye()
@@ -111,6 +126,7 @@ def fight(index, loc):
             screen.bye()
             return 0
 
+# battle visuals using turtle graphics, display of two battling pokemon, HP,  attacks
 def fightvisuals(card_index, loc):
     t.TurtleScreen._RUNNING = True
     screen = t.Screen()
@@ -159,7 +175,7 @@ def fightvisuals(card_index, loc):
 
     return screen, pokemon_textle, enemy_textle
 
-
+# update battle graphics each attack turn, updates HP and shows damage dealt
 def update_battle(screen, pokemon_textle, enemy_textle, player_hp, loc_hp, damage, whos_turn, card_index):
 
     pokemon_textle.clear()
