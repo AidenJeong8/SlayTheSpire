@@ -197,6 +197,3 @@ def update_battle(screen, pokemon_textle, enemy_textle, player_hp, loc_hp, damag
             screen.update()
 
 fight(card_index, location_index)
-
-
-
