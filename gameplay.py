@@ -2,10 +2,10 @@ from locationgraphics import location
 from deck import cards
 from battle import fight
 from updatelb import update_leaderboard
-import items_real
-import random
 
-print(dir(items))
+from items import items_real
+import random
+import math
 
 
 print("Welcome to Slay The Spire!")
@@ -14,30 +14,44 @@ print("In this game, you will use Pokemon to conquer various levels.")
 name = input("What is your username? ")
 score = 0
 
+xp_file = open("xp.txt",mode="r")
+xp = int(xp_file.readline())
+xp_file.close()
+
+X = math.log(xp)/10
+
 
 print("We will start at the entrance.")
-location("entrance")
+boost = location("entrance")
 print("Here are the cards you can play:")
-for i in range(len(cards)):
+for i in range(math.floor(len(cards)*X)):
     print(str(i)+":",cards[i][0])
 card_index = int(input("Select which card to play: "))
+cards[i][1] += boost
 score += fight(card_index, 0)
+cards[i][1] -= boost
 
 print("Congrats! You are at the middle.")
-location("middle")
+boost = location("middle")
 print("Here are the cards you can play:")
-for i in range(len(cards)):
+for i in range(math.floor(len(cards)*X)):
     print(str(i)+":",cards[i][0])
 card_index = int(input("Select which card to play: "))
+cards[i][1] += boost
 score += fight(card_index, 1)
+cards[i][1] -= boost
+
 
 print("Final level!")
-location("end")
+boost = location("end")
 print("Here are the cards you can play:")
-for i in range(len(cards)):
+for i in range(math.floor(len(cards)*X)):
     print(str(i)+":",cards[i][0])
 card_index = int(input("Select which card to play: "))
+cards[i][1] += boost
 score += fight(card_index, 2)
+cards[i][1] -= boost
+
 
 
 print("Leaderboard:")
@@ -66,3 +80,4 @@ profile = input("Do you want to see your profile? (y/n) ")
 if profile == "y":
     print("*** PROFILE ***")
     print("*** XP:",str(xp),"***")
+    print("*** Cards you can access",math.floor(len(cards)*X),"***")
