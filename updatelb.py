@@ -1,3 +1,4 @@
+# updates leaderboard with a new score and name; simple sorting algorithm
 def update_leaderboard(new_score, new_name):  
   leaderboard_list = []
   
