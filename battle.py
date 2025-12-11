@@ -1,3 +1,10 @@
+"""
+Docstring for battle
+
+This file contains the whole battle system of Slay the Spire
+"""
+
+# import statements
 import deck
 import locations
 import random
@@ -6,12 +13,15 @@ import turtle as t
 import items
 import time
 
-
+# user input to play which card against which location
 card_index = int(input("Select which card to play: "))
 location_index = int(input("Select a location on the map to travel to: "))
 print("\n\n\n")
 
+# battle sequence function, taking in card & location index as parameters (not 0-indexed)
 def fight(index, loc):
+
+    # instantiating all player card stats as variables
     selected_card = deck.cards[index] 
     player_hp = selected_card[1]
     player_cost1 = selected_card[3][0]
@@ -22,10 +32,11 @@ def fight(index, loc):
     screen, pokemon_textle, enemy_textle = fightvisuals(index, loc)
     update_battle(screen, pokemon_textle, enemy_textle, player_hp, locations.locs[loc][1], "0", "none", index)
 
-
+    # printing player stats
     print("Pokemon selected: " + selected_card[0])
     print("Initial HP: " + str(selected_card[1]))
 
+    # instantiating all location stats as variables
     selected_loc = locations.locs[loc] 
     loc_hp = selected_loc[1]
     loc_cost1 = selected_loc[3][0]
@@ -33,17 +44,20 @@ def fight(index, loc):
     loc_cost2 = selected_loc[4][0]
     loc_dmg2 = selected_loc[4][1]
 
+    # printing location stats
     print("Location selected: " + selected_loc[0])
     print("Initial HP: " + str(selected_loc[1]))
 
     print("\n\n\n")
 
 
-
+    # for loop for a maximum of 10 turns of battling
     for i in range(10):
-
+        
+        # print round number
         print("\n\nRound " + str(i+1) + "\n")
 
+        # user chooses attack
         user_attack = int(input("Attack 1 or 2\n"))
         if (user_attack == 1):
             user_attack = player_dmg1
@@ -56,7 +70,8 @@ def fight(index, loc):
         else:
             print("Invalid")
             return
-        
+
+        # damage dealt to location
         player_hp -= user_cost
         loc_hp -= user_attack
 
@@ -71,6 +86,7 @@ def fight(index, loc):
 
         update_battle(screen, pokemon_textle, enemy_textle, player_hp, loc_hp, str(user_attack), whos_turn, index)
 
+        # check to see if player or location died
         if (loc_hp <= 0):
             print("Victory!")
 
@@ -79,6 +95,7 @@ def fight(index, loc):
             print("Defeat!")
             return
 
+        # location chooses random attack
         loc_attack = random.randint(1, 2)
         if (loc_attack == 1):
             loc_attack = loc_dmg1
@@ -91,7 +108,8 @@ def fight(index, loc):
         else:
             print("Invalid")
             return
-        
+
+        # damage dealt to player
         loc_hp -= loc_cost
         player_hp -= loc_attack
 
@@ -105,6 +123,7 @@ def fight(index, loc):
 
         update_battle(screen, pokemon_textle, enemy_textle, player_hp, loc_hp, str(user_attack), whos_turn, index)
 
+        # check to see if player or location died
         if (loc_hp <= 0):
             print("Victory!")
             return
@@ -198,7 +217,7 @@ def update_battle(screen, pokemon_textle, enemy_textle, player_hp, loc_hp, damag
     
 
 
-
+# call battle function
 fight(card_index, location_index)
 
 
