@@ -11,13 +11,44 @@ This file contains the whole battle system of Slay the Spire
 import deck
 import locations
 import random
-import turtle
 import turtle as t
-import items
+from items import items_real
 import time
 
+def use_item(inventory, player_hp):
+    if len(inventory) == 0:
+        print("No items")
+        return player_hp
+    
+    print("\nItems")
+    
+    i = 1
+    for item in inventory:
+        print(i, item.__class__.__name__)
+        i += 1
+    choice = int(input("Use item number(0 to skip): "))
+
+    if choice == 0:
+        return player_hp
+    
+    item = inventory[choice - 1]
+    heal = item.use()
+    player_hp += heal
+    inventory.pop(choice - 1)
+
+    return player_hp
+
 # battle sequence function, taking in card & location index as parameters (not 0-indexed)
-def fight(index, loc):
+def fight(index, loc, inventory):
+
+    current_leftovers = False
+    current_RH = False
+
+    for item in inventory:
+        if item.__class__.__name__ == "leftovers":
+            current_leftovers=True
+        if item.__class__.__name__ == "rocky_helmet":
+            current_RH=True
     
     # instantiating all player card stats as variables
     selected_card = deck.cards[index] 
@@ -53,6 +84,14 @@ def fight(index, loc):
 
         print("\n\nRound " + str(i+1) + "\n")
 
+        if current_leftovers:
+            print("Leftovers +20hp")
+            player_hp += 20
+
+        use = input("Use item? (y/n): ")
+        if use == 'y':
+            player_hp = use_item(inventory, player_hp)
+
         user_attack = int(input("Attack 1 or 2\n"))
         if (user_attack == 1):
             user_attack = player_dmg1
@@ -84,6 +123,9 @@ def fight(index, loc):
         # check to see if player or location died
         if (loc_hp <= 0):
             print("Victory!")
+            reward_item = items_real.random_item()
+            print("You recieved a " + reward_item.__class__.__name__ + "!")
+            inventory.append(reward_item)
             screen.bye()
             return player_hp
         if (player_hp <= 0):
@@ -119,6 +161,9 @@ def fight(index, loc):
 
         if (loc_hp <= 0):
             print("Victory!")
+            reward_item = items_real.random_item()
+            print("You recieved a " + reward_item.__class__.__name__ + "!")
+            inventory.append(reward_item)
             screen.bye()
             return player_hp
         if (player_hp <= 0):
