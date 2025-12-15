@@ -14,6 +14,8 @@ print("In this game, you will use Pokemon to conquer various levels.")
 name = input("What is your username? ")
 score = 0
 
+inventory = []
+
 # instantiates XP
 xp_file = open("xp.txt",mode="r")
 xp = int(xp_file.readline())
@@ -30,7 +32,7 @@ for i in range(math.floor(len(cards)*X)):
     print(str(i)+":",cards[i][0])
 card_index = int(input("Select which card to play: "))
 cards[i][1] += boost
-score += fight(card_index, 0)
+score += fight(card_index, 0, inventory)
 cards[i][1] -= boost
 
 # middle
@@ -41,7 +43,7 @@ for i in range(math.floor(len(cards)*X)):
     print(str(i)+":",cards[i][0])
 card_index = int(input("Select which card to play: "))
 cards[i][1] += boost
-score += fight(card_index, 1)
+score += fight(card_index, 1, inventory)
 cards[i][1] -= boost
 
 # end
