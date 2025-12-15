@@ -54,7 +54,7 @@ for i in range(math.floor(len(cards)*X)):
     print(str(i)+":",cards[i][0])
 card_index = int(input("Select which card to play: "))
 cards[i][1] += boost
-score += fight(card_index, 2)
+score += fight(card_index, 2, inventory)
 cards[i][1] -= boost
 
 
